@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import apiClient from '../services/apiClient';
+import axios from 'axios';
 import { getToken } from '../utils/storage';
 
 export default function MediaPanel({ media, socket, roomId, room }) {
@@ -45,7 +45,9 @@ export default function MediaPanel({ media, socket, roomId, room }) {
       formData.append('roomId', roomId);
       
       const token = getToken();
-      const { data } = await apiClient.post('/media/upload', formData, {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      
+      const { data } = await axios.post(`${API_URL}/media/upload`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
