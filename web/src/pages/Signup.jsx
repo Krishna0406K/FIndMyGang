@@ -22,7 +22,9 @@ export default function Signup() {
       login(data.token, data.user);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || 'Signup failed');
+      console.error('Signup error:', err);
+      const errorMsg = err.response?.data?.error || err.message || 'Signup failed. Please try again.';
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -38,6 +40,11 @@ export default function Signup() {
         </div>
         <h1 className="text-3xl font-bold mb-2 text-center text-gray-800">FindMyGang</h1>
         <p className="text-center text-gray-600 mb-6">Create your account</p>
+        {loading && (
+          <div className="bg-blue-100 text-blue-700 p-3 rounded-lg mb-4 text-sm">
+            Connecting to server... This may take up to 30 seconds on first load.
+          </div>
+        )}
         {error && <div className="bg-red-100 text-red-700 p-3 rounded-lg mb-4">{error}</div>}
         <form onSubmit={handleSubmit}>
           <input
