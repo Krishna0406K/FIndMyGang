@@ -43,9 +43,7 @@ export default function MediaPanel({ media, socket, roomId, room }) {
       formData.append('file', file);
       formData.append('roomId', roomId);
       
-      const { data } = await apiClient.post('/media/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const { data } = await apiClient.post('/media/upload', formData);
       
       console.log('[Media] Upload successful:', data);
       socket?.emit('send-media', { 

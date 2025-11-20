@@ -97,9 +97,7 @@ export default function RoomScreen() {
       });
       formData.append('roomId', roomId);
 
-      const { data } = await api.post('/media/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const { data } = await api.post('/media/upload', formData);
 
       socket?.emit('send-media', { roomId, url: data.url, type: data.type });
     } catch (error) {
