@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "FindMyGang",
+    "slug": "findmygang",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "description": "Real-time location sharing and chat app for meetups",
+    "primaryColor": "#10b981",
+    "ios": {
+      "bundleIdentifier": "com.findmygang.app"
+    },
+    "android": {
+      "package": "com.findmygang.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#10b981"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-asset",
+      "expo-font"
+    ]
+  }
+}
