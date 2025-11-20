@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import apiClient from '../services/apiClient';
+import { getToken } from '../utils/storage';
 
 export default function MediaPanel({ media, socket, roomId, room }) {
   const [uploading, setUploading] = useState(false);
@@ -43,7 +44,12 @@ export default function MediaPanel({ media, socket, roomId, room }) {
       formData.append('file', file);
       formData.append('roomId', roomId);
       
-      const { data } = await apiClient.post('/media/upload', formData);
+      const token = getToken();
+      const { data } = await apiClient.post('/media/upload', formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       
       console.log('[Media] Upload successful:', data);
       socket?.emit('send-media', { 
@@ -52,9 +58,11 @@ export default function MediaPanel({ media, socket, roomId, room }) {
         type: data.type,
         location: location // Include location if available
       });
+      e.target.value = ''; // Reset file input
     } catch (error) {
       console.error('[Media] Upload error:', error);
       alert('Upload failed: ' + (error.response?.data?.error || error.message));
+      e.target.value = ''; // Reset file input
     } finally {
       setUploading(false);
     }
